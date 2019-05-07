@@ -1,8 +1,8 @@
-package net.rdrei.android.buildtimetracker.reporters
+package co.droidchef.android.buildtimetracker.reporters
 
 import groovy.json.JsonSlurper
 import groovy.mock.interceptor.MockFor
-import net.rdrei.android.buildtimetracker.Timing
+import co.droidchef.android.buildtimetracker.Timing
 import org.gradle.api.logging.Logger
 import org.junit.Rule
 import org.junit.Test

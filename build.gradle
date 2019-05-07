@@ -51,8 +51,8 @@ dependencies {
   testCompile 'junit:junit:4.11'
 }
 
-group = 'net.rdrei.android.buildtimetracker'
-version = '0.12.0-SNAPSHOT'
+group = 'co.droidchef.android.buildtimetracker'
+version = '1.0.0'
 
 install {
   repositories.mavenInstaller {
@@ -79,13 +79,13 @@ modifyPom {
   project {
     name 'Gradle Build Time Tracker'
     description 'Gradle plugin which tracks your build times.'
-    url 'https://github.com/passy/build-time-tracker-plugin'
+    url 'https://github.com/droidchef/build-time-tracker-plugin'
     inceptionYear '2014'
 
     scm {
-      url 'https://github.com/passy/build-time-tracker-plugin'
-      connection 'scm:git:git://github.com/passy/build-time-tracker-plugin.git'
-      developerConnection 'scm:git:ssh://git@github.com/passy/build-time-tracker-plugin.git'
+      url 'https://github.com/droidchef/build-time-tracker-plugin'
+      connection 'scm:git:git://github.com/droidchef/build-time-tracker-plugin.git'
+      developerConnection 'scm:git:ssh://git@github.com/droidchef/build-time-tracker-plugin.git'
     }
 
     licenses {
@@ -98,9 +98,9 @@ modifyPom {
 
     developers {
       developer {
-        id 'passy'
-        name 'Pascal Hartig'
-        email 'phartig@rdrei.net'
+        id 'droidchef'
+        name 'Ishan Khanna'
+        email 'droidchefofficial@gmail.com'
       }
     }
   }
@@ -110,16 +110,16 @@ gradlePlugin {
   plugins {
     buildTimeTrackerPlugin {
       id = group
-      implementationClass = 'net.rdrei.android.buildtimetracker.BuildTimeTrackerPlugin'
+      implementationClass = 'co.droidchef.android.buildtimetracker.BuildTimeTrackerPlugin'
     }
   }
 }
 
 pluginBundle {
-  website = 'https://github.com/passy/build-time-tracker-plugin'
-  vcsUrl = 'https://github.com/passy/build-time-tracker-plugin.git'
+  website = 'https://github.com/droidchef/build-time-tracker-plugin'
+  vcsUrl = 'https://github.com/droidchef/build-time-tracker-plugin.git'
   description = 'Gradle plugin to continuously track and report your build times.'
-  tags = ['gradle', 'performance', 'buildtimes', 'matrics']
+  tags = ['gradle', 'performance', 'buildtimes', 'metrics']
 
   plugins {
     buildTimeTrackerPlugin {

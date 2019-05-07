@@ -1,4 +1,4 @@
-package net.rdrei.android.buildtimetracker
+package co.droidchef.android.buildtimetracker
 
 import org.gradle.api.Task
 import org.gradle.api.execution.TaskExecutionListener

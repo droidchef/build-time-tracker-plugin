@@ -1,4 +1,4 @@
-package net.rdrei.android.buildtimetracker.reporters
+package co.droidchef.android.buildtimetracker.reporters
 
 import groovy.mock.interceptor.MockFor
 import org.gradle.api.logging.Logger
@@ -6,8 +6,6 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TemporaryFolder
 import org.ocpsoft.prettytime.PrettyTime
-
-import static org.junit.Assert.*
 
 class CSVSummaryReporterTest {
 

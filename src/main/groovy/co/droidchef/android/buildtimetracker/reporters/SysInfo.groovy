@@ -1,4 +1,4 @@
-package net.rdrei.android.buildtimetracker.reporters;
+package co.droidchef.android.buildtimetracker.reporters;
 
 public class SysInfo {
     String getOSIdentifier() {

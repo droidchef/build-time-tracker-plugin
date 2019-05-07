@@ -1,6 +1,6 @@
 package net.rdrei.android.buildtimetracker
 
-import net.rdrei.android.buildtimetracker.reporters.FormattingUtils
+import co.droidchef.android.buildtimetracker.reporters.FormattingUtils
 import org.junit.Test
 
 import static org.junit.Assert.*

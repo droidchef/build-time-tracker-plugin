@@ -1,10 +1,10 @@
-package net.rdrei.android.buildtimetracker
+package co.droidchef.android.buildtimetracker
 
-import net.rdrei.android.buildtimetracker.reporters.AbstractBuildTimeTrackerReporter
-import net.rdrei.android.buildtimetracker.reporters.CSVSummaryReporter
-import net.rdrei.android.buildtimetracker.reporters.JSONReporter
-import net.rdrei.android.buildtimetracker.reporters.SummaryReporter
-import net.rdrei.android.buildtimetracker.reporters.CSVReporter
+import co.droidchef.android.buildtimetracker.reporters.AbstractBuildTimeTrackerReporter
+import co.droidchef.android.buildtimetracker.reporters.CSVSummaryReporter
+import co.droidchef.android.buildtimetracker.reporters.JSONReporter
+import co.droidchef.android.buildtimetracker.reporters.SummaryReporter
+import co.droidchef.android.buildtimetracker.reporters.CSVReporter
 import org.gradle.api.NamedDomainObjectCollection
 import org.gradle.api.Plugin
 import org.gradle.api.Project

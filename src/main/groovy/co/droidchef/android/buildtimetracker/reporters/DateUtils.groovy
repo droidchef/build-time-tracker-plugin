@@ -1,4 +1,4 @@
-package net.rdrei.android.buildtimetracker.reporters;
+package co.droidchef.android.buildtimetracker.reporters;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;

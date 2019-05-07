@@ -1,4 +1,4 @@
-package net.rdrei.android.buildtimetracker.util
+package co.droidchef.android.buildtimetracker.util
 
 class Clock {
     long startTimeInMs

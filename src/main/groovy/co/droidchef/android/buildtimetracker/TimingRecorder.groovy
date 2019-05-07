@@ -1,6 +1,7 @@
-package net.rdrei.android.buildtimetracker
+package co.droidchef.android.buildtimetracker
 
-import net.rdrei.android.buildtimetracker.util.Clock
+
+import co.droidchef.android.buildtimetracker.util.Clock
 import org.gradle.BuildResult
 import org.gradle.api.Task
 import org.gradle.api.execution.TaskExecutionListener

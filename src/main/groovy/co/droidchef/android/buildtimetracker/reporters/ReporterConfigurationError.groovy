@@ -1,4 +1,4 @@
-package net.rdrei.android.buildtimetracker.reporters
+package co.droidchef.android.buildtimetracker.reporters
 
 class ReporterConfigurationError extends Exception {
     String reporterName

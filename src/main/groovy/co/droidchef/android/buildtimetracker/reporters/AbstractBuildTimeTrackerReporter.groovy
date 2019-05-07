@@ -1,6 +1,6 @@
-package net.rdrei.android.buildtimetracker.reporters
+package co.droidchef.android.buildtimetracker.reporters
 
-import net.rdrei.android.buildtimetracker.Timing
+import co.droidchef.android.buildtimetracker.Timing
 import org.gradle.BuildResult
 import org.gradle.api.logging.Logger
 

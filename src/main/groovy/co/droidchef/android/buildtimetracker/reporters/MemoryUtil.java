@@ -1,4 +1,4 @@
-package net.rdrei.android.buildtimetracker.reporters;
+package co.droidchef.android.buildtimetracker.reporters;
 
 /**
  * This hackery doesn't work in Groovy, so we have to

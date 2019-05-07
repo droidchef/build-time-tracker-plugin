@@ -1,8 +1,11 @@
 package net.rdrei.android.buildtimetracker
 
+import co.droidchef.android.buildtimetracker.BuildTimeTrackerPlugin
+import co.droidchef.android.buildtimetracker.Timing
+import co.droidchef.android.buildtimetracker.TimingRecorder
 import groovy.mock.interceptor.MockFor
-import net.rdrei.android.buildtimetracker.reporters.AbstractBuildTimeTrackerReporter
-import net.rdrei.android.buildtimetracker.util.Clock
+import co.droidchef.android.buildtimetracker.reporters.AbstractBuildTimeTrackerReporter
+import co.droidchef.android.buildtimetracker.util.Clock
 import org.gradle.api.Task
 import org.gradle.api.logging.Logger
 import org.gradle.api.tasks.TaskState

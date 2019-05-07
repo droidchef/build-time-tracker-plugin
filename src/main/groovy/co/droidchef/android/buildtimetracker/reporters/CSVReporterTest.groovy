@@ -1,10 +1,10 @@
-package net.rdrei.android.buildtimetracker.reporters
+package co.droidchef.android.buildtimetracker.reporters
 
 import au.com.bytecode.opencsv.CSVReader
 import groovy.mock.interceptor.MockFor
 import groovy.mock.interceptor.StubFor
 import org.gradle.api.logging.Logger
-import net.rdrei.android.buildtimetracker.Timing
+import co.droidchef.android.buildtimetracker.Timing
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TemporaryFolder
