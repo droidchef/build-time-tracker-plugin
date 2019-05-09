@@ -5,6 +5,7 @@ import co.droidchef.android.buildtimetracker.reporters.CSVSummaryReporter
 import co.droidchef.android.buildtimetracker.reporters.JSONReporter
 import co.droidchef.android.buildtimetracker.reporters.SummaryReporter
 import co.droidchef.android.buildtimetracker.reporters.CSVReporter
+import co.droidchef.android.buildtimetracker.reporters.WarehouseReporter
 import org.gradle.api.NamedDomainObjectCollection
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -15,7 +16,8 @@ class BuildTimeTrackerPlugin implements Plugin<Project> {
         summary: SummaryReporter,
         csv: CSVReporter,
         csvSummary: CSVSummaryReporter,
-        json: JSONReporter
+        json: JSONReporter,
+        warehouse: WarehouseReporter
     ]
     Logger logger
 

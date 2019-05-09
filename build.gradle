@@ -47,6 +47,7 @@ dependencies {
   compile 'net.sf.opencsv:opencsv:2.3'
   compile 'org.ocpsoft.prettytime:prettytime:3.2.5.Final'
   compile 'joda-time:joda-time:2.4'
+  compile 'org.codehaus.groovy.modules.http-builder:http-builder:0.7'
 
   testCompile 'junit:junit:4.11'
 }
