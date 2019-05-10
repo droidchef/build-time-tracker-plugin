@@ -1,4 +1,4 @@
-package net.rdrei.android.buildtimetracker
+package co.droidchef.android.buildtimetracker
 
 import co.droidchef.android.buildtimetracker.reporters.FormattingUtils
 import org.junit.Test

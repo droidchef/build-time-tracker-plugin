@@ -4,12 +4,12 @@ import groovy.mock.interceptor.MockFor
 import co.droidchef.android.buildtimetracker.Timing
 import org.gradle.BuildResult
 import org.gradle.api.logging.Logger
+import org.junit.Test
 
 import static org.junit.Assert.assertEquals
 import static org.junit.Assert.assertTrue
 import static org.junit.Assert.assertFalse
 
-import org.junit.Test
 
 class SummaryReporterTest {
     @Test

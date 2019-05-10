@@ -49,7 +49,7 @@ dependencies {
   compile 'joda-time:joda-time:2.4'
   compile 'org.codehaus.groovy.modules.http-builder:http-builder:0.7'
 
-  testCompile 'junit:junit:4.11'
+  compile 'junit:junit:4.12'
 }
 
 group = 'co.droidchef.android.buildtimetracker'

@@ -1,4 +1,4 @@
-package net.rdrei.android.buildtimetracker
+package co.droidchef.android.buildtimetracker
 
 import groovy.mock.interceptor.MockFor
 import co.droidchef.android.buildtimetracker.reporters.CSVReporter
