@@ -2,13 +2,14 @@ package co.droidchef.android.buildtimetracker.reporters
 
 import co.droidchef.android.buildtimetracker.Timing
 import groovyx.net.http.HTTPBuilder
+import net.sf.json.JSON
 
 import java.text.DateFormat
 import java.text.SimpleDateFormat
-import java.util.logging.Logger
+import org.gradle.api.logging.Logger
 
 class WarehouseReporter extends AbstractBuildTimeTrackerReporter {
-    WarehouseReporter(Map<String, String> options, Logger logger) {
+    WarehouseReporter(HashMap<String, String> options, Logger logger) {
         super(options, logger)
     }
 
@@ -33,7 +34,7 @@ class WarehouseReporter extends AbstractBuildTimeTrackerReporter {
         def maxMem = info.getMaxMemory()
         def measurements = []
         def ultimateSuccess = timings.every { it.success }
-
+        def userName = System.getProperty("user.name");
         timings.eachWithIndex { it, index ->
             measurements << [
                     timestamp       : timestamp,
@@ -48,7 +49,8 @@ class WarehouseReporter extends AbstractBuildTimeTrackerReporter {
                     os              : osId,
                     hostname        : hostname,
                     git_sha         : getOption('git', ''),
-                    ultimate_success: ultimateSuccess
+                    ultimate_success: ultimateSuccess,
+                    user_name       : userName
             ]
         }
 

@@ -36,7 +36,7 @@ class BuildTimeTrackerPlugin implements Plugin<Project> {
             if (REPORTERS.containsKey(ext.name)) {
                 return REPORTERS.get(ext.name).newInstance(ext.options, logger)
             }
-        }.findAll { ext -> ext != null }
+        }.findAll { ext -> ext != null } as List<AbstractBuildTimeTrackerReporter>
     }
 }
 
