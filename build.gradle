@@ -11,7 +11,7 @@ buildscript {
 plugins {
   id 'com.gradle.plugin-publish' version '0.10.0'
   id 'java-gradle-plugin'
-  id "co.droidchef.android.buildtimetracker" version "1.0.4"
+  id "co.droidchef.android.buildtimetracker" version "1.0.5"
 }
 
 apply plugin: 'groovy'
@@ -57,7 +57,7 @@ dependencies {
 }
 
 group = 'co.droidchef.android.buildtimetracker'
-version = '1.0.4'
+version = '1.0.5'
 
 install {
   repositories.mavenInstaller {

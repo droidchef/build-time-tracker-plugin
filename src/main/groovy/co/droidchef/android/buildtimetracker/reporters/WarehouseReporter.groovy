@@ -26,6 +26,7 @@ class WarehouseReporter extends AbstractBuildTimeTrackerReporter {
         def osId = info.getOSIdentifier()
         def cpuId = info.getCPUIdentifier()
         def maxMem = info.getMaxMemory()
+        def userName = System.getProperty("user.name")
         def measurements = []
 
         timings.eachWithIndex { it, index ->
@@ -38,15 +39,18 @@ class WarehouseReporter extends AbstractBuildTimeTrackerReporter {
                     skipped: it.skipped,
                     ms: it.ms,
                     date: df.format(new Date(timestamp)),
-                    cpu: cpuId,
-                    memory: maxMem,
-                    os: osId,
             ]
         }
 
         def data = [
                 success: timings.every { it.success },
                 count: timings.size(),
+                meta: [
+                        cpu: cpuId,
+                        memory: maxMem,
+                        os: osId,
+                        user_name: userName
+                ],
                 measurements: measurements,
         ]
         // write to server
