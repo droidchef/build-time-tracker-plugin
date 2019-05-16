@@ -11,7 +11,7 @@ buildscript {
 plugins {
   id 'com.gradle.plugin-publish' version '0.10.0'
   id 'java-gradle-plugin'
-  id "co.droidchef.android.buildtimetracker" version "1.0.2"
+  id "co.droidchef.android.buildtimetracker" version "1.0.3"
 }
 
 apply plugin: 'groovy'
@@ -26,6 +26,10 @@ buildtimetracker {
       output "times.csv"
       append true
       header false
+    }
+
+    warehouse {
+      url "http://localhost:5000/android/build/statistics"
     }
 
     summary {}
@@ -53,7 +57,7 @@ dependencies {
 }
 
 group = 'co.droidchef.android.buildtimetracker'
-version = '1.0.2'
+version = '1.0.3'
 
 install {
   repositories.mavenInstaller {
