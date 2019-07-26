@@ -2,9 +2,11 @@ buildscript {
   repositories {
     mavenCentral()
     jcenter()
+//    mavenLocal()
   }
   dependencies {
     classpath 'org.gradle.api.plugins:gradle-nexus-plugin:0.5.1'
+//    classpath 'co.droidchef.android.buildtimetracker:gradle-plugin:1.0.6'
   }
 }
 
@@ -19,6 +21,8 @@ apply plugin: 'maven'
 apply plugin: 'nexus'
 apply plugin: 'idea'
 apply plugin: 'build-time-tracker'
+apply plugin: 'maven-publish'
+//apply plugin: 'co.droidchef.android.buildtimetracker'
 
 buildtimetracker {
   reporters {
@@ -42,6 +46,7 @@ targetCompatibility = 1.7
 dependencies {
   repositories {
     mavenCentral()
+    //mavenLocal()
   }
 
   compile gradleApi()
@@ -57,7 +62,7 @@ dependencies {
 }
 
 group = 'co.droidchef.android.buildtimetracker'
-version = '1.0.5'
+version = '1.0.8'
 
 install {
   repositories.mavenInstaller {
@@ -129,6 +134,17 @@ pluginBundle {
   plugins {
     buildTimeTrackerPlugin {
       displayName = 'Build Time Tracker'
+    }
+  }
+}
+
+publishing {
+  publications {
+    pluginPublication (MavenPublication) {
+      from    components.java
+      groupId    project.group
+      artifactId    "gradle-plugin"
+      version    project.version
     }
   }
 }

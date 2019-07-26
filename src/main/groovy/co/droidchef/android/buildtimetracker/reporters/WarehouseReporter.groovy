@@ -27,6 +27,7 @@ class WarehouseReporter extends AbstractBuildTimeTrackerReporter {
         def cpuId = info.getCPUIdentifier()
         def maxMem = info.getMaxMemory()
         def userName = System.getProperty("user.name")
+
         def measurements = []
 
         timings.eachWithIndex { it, index ->
@@ -49,7 +50,7 @@ class WarehouseReporter extends AbstractBuildTimeTrackerReporter {
                         cpu: cpuId,
                         memory: maxMem,
                         os: osId,
-                        user_name: userName
+                        username: userName
                 ],
                 measurements: measurements,
         ]
@@ -75,6 +76,7 @@ class WarehouseReporter extends AbstractBuildTimeTrackerReporter {
             }
         } catch (Exception exception) {
             logger.quiet sprintf('Failed to report build stats! %1$s', exception.toString())
+            //logger.quiet sprintf(data.toMapString())
         }
     }
 }
