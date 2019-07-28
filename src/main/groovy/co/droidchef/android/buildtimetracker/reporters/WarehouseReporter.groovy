@@ -4,8 +4,15 @@ import co.droidchef.android.buildtimetracker.Timing
 import groovyx.net.http.ContentType
 import groovyx.net.http.HTTPBuilder
 import groovyx.net.http.Method
+import org.apache.http.conn.scheme.Scheme
+import org.apache.http.conn.ssl.SSLSocketFactory
 import org.gradle.api.logging.Logger
 
+import javax.net.ssl.SSLContext
+import javax.net.ssl.TrustManager
+import javax.net.ssl.X509TrustManager
+import java.security.SecureRandom
+import java.security.cert.X509Certificate
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 
@@ -59,8 +66,17 @@ class WarehouseReporter extends AbstractBuildTimeTrackerReporter {
         def http = new HTTPBuilder(url)
         http.getClient().getParams().setParameter("http.connection.timeout", new Integer(5000))
         http.getClient().getParams().setParameter("http.socket.timeout", new Integer(5000))
-
         try {
+            SSLContext sc = SSLContext.getInstance("SSL")
+            sc.init(null, [ new X509TrustManager() {
+                public X509Certificate[] getAcceptedIssuers() {null }
+                public void checkClientTrusted(X509Certificate[] certs, String authType) { }
+                public void checkServerTrusted(X509Certificate[] certs, String authType) { }
+            } ] as TrustManager[], new SecureRandom())
+            def sf = new SSLSocketFactory(sc, SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER)
+            def httpsScheme = new Scheme("https", sf, 80)
+            http.client.connectionManager.schemeRegistry.register(httpsScheme)
+
             http.request(Method.POST, ContentType.JSON) { req ->
                 body = data
 

@@ -1,150 +1,194 @@
 buildscript {
-  repositories {
-    mavenCentral()
-    jcenter()
-//    mavenLocal()
-  }
-  dependencies {
-    classpath 'org.gradle.api.plugins:gradle-nexus-plugin:0.5.1'
-//    classpath 'co.droidchef.android.buildtimetracker:gradle-plugin:1.0.6'
-  }
+    repositories {
+        mavenCentral()
+        jcenter()
+        maven {
+            def Properties properties = new Properties()
+            properties.load(project.rootProject.file("local.properties").newDataInputStream())
+            def artifactory_contextUrl = properties.getProperty('artifactory_contextUrl')
+            url "${artifactory_contextUrl}/gradle"
+            credentials {
+                username = properties.getProperty('artifactory_user')
+                password = properties.getProperty('artifactory_password')
+            }
+        }
+    }
+    dependencies {
+        classpath 'org.gradle.api.plugins:gradle-nexus-plugin:0.5.1'
+        classpath 'co.droidchef.android.buildtimetracker:gradle-build-tracker:1.0.12'
+        classpath "org.jfrog.buildinfo:build-info-extractor-gradle:4.9.6"
+    }
 }
 
 plugins {
-  id 'com.gradle.plugin-publish' version '0.10.0'
-  id 'java-gradle-plugin'
-  id "co.droidchef.android.buildtimetracker" version "1.0.5"
+    id 'com.gradle.plugin-publish' version '0.10.0'
+    id 'java-gradle-plugin'
 }
 
 apply plugin: 'groovy'
 apply plugin: 'maven'
 apply plugin: 'nexus'
 apply plugin: 'idea'
-apply plugin: 'build-time-tracker'
+apply plugin: "com.jfrog.artifactory"
 apply plugin: 'maven-publish'
-//apply plugin: 'co.droidchef.android.buildtimetracker'
+apply plugin: 'co.droidchef.android.buildtimetracker'
 
 buildtimetracker {
-  reporters {
-    csv {
-      output "times.csv"
-      append true
-      header false
-    }
+    reporters {
+        csv {
+            output "times.csv"
+            append true
+            header false
+        }
 
-    warehouse {
-      url "http://localhost:5000/android/build/statistics"
+//    warehouse {
+//      url "http://localhost:5000/android/build/statistics"
+//    }
     }
-
-    summary {}
-  }
 }
 
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
 
 dependencies {
-  repositories {
-    mavenCentral()
-    //mavenLocal()
-  }
+    repositories {
+        mavenCentral()
+        //mavenLocal()
+    }
 
-  compile gradleApi()
-  compile localGroovy()
-  compile 'org.rauschig:jarchivelib:0.6.0'
-  compile 'commons-io:commons-io:2.4'
-  compile 'net.sf.opencsv:opencsv:2.3'
-  compile 'org.ocpsoft.prettytime:prettytime:3.2.5.Final'
-  compile 'joda-time:joda-time:2.4'
-  compile 'org.codehaus.groovy.modules.http-builder:http-builder:0.7'
+    compile gradleApi()
+    compile localGroovy()
+    compile 'org.rauschig:jarchivelib:0.6.0'
+    compile 'commons-io:commons-io:2.4'
+    compile 'net.sf.opencsv:opencsv:2.3'
+    compile 'org.ocpsoft.prettytime:prettytime:3.2.5.Final'
+    compile 'joda-time:joda-time:2.4'
+    compile 'org.codehaus.groovy.modules.http-builder:http-builder:0.7'
 
-  compile 'junit:junit:4.12'
+    compile 'junit:junit:4.12'
 }
 
 group = 'co.droidchef.android.buildtimetracker'
-version = '1.0.8'
+version = '1.0.12'
 
 install {
-  repositories.mavenInstaller {
-    pom.artifactId = 'gradle-plugin'
-  }
+    repositories.mavenInstaller {
+        pom.artifactId = 'gradle-plugin'
+    }
 }
 
 compileGroovy {
-  groovyOptions.forkOptions.jvmArgs = ['-noverify']
+    groovyOptions.forkOptions.jvmArgs = ['-noverify']
 }
 
 test {
-  jvmArgs '-noverify'
+    jvmArgs '-noverify'
 }
 
 uploadArchives {
-  repositories.mavenDeployer {
-    pom.artifactId = 'gradle-plugin'
-    beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
-  }
+    repositories.mavenDeployer {
+        pom.artifactId = 'gradle-build-tracker'
+        beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+    }
 }
 
 modifyPom {
-  project {
-    name 'Gradle Build Time Tracker'
-    description 'Gradle plugin which tracks your build times.'
-    url 'https://github.com/droidchef/build-time-tracker-plugin'
-    inceptionYear '2014'
+    project {
+        name 'Gradle Build Time Tracker'
+        description 'Gradle plugin which tracks your build times.'
+        url 'https://github.com/droidchef/build-time-tracker-plugin'
+        inceptionYear '2014'
 
-    scm {
-      url 'https://github.com/droidchef/build-time-tracker-plugin'
-      connection 'scm:git:git://github.com/droidchef/build-time-tracker-plugin.git'
-      developerConnection 'scm:git:ssh://git@github.com/droidchef/build-time-tracker-plugin.git'
-    }
+        scm {
+            url 'https://github.com/droidchef/build-time-tracker-plugin'
+            connection 'scm:git:git://github.com/droidchef/build-time-tracker-plugin.git'
+            developerConnection 'scm:git:ssh://git@github.com/droidchef/build-time-tracker-plugin.git'
+        }
 
-    licenses {
-      license {
-        name 'The Apache Software License, Version 2.0'
-        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-        distribution 'repo'
-      }
-    }
+        licenses {
+            license {
+                name 'The Apache Software License, Version 2.0'
+                url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                distribution 'repo'
+            }
+        }
 
-    developers {
-      developer {
-        id 'droidchef'
-        name 'Ishan Khanna'
-        email 'droidchefofficial@gmail.com'
-      }
+        developers {
+            developer {
+                id 'droidchef'
+                name 'Ishan Khanna'
+                email 'droidchefofficial@gmail.com'
+            }
+        }
     }
-  }
 }
 
 gradlePlugin {
-  plugins {
-    buildTimeTrackerPlugin {
-      id = group
-      implementationClass = 'co.droidchef.android.buildtimetracker.BuildTimeTrackerPlugin'
+    plugins {
+        buildTimeTrackerPlugin {
+            id = group
+            implementationClass = 'co.droidchef.android.buildtimetracker.BuildTimeTrackerPlugin'
+        }
     }
-  }
 }
 
 pluginBundle {
-  website = 'https://github.com/droidchef/build-time-tracker-plugin'
-  vcsUrl = 'https://github.com/droidchef/build-time-tracker-plugin.git'
-  description = 'Gradle plugin to continuously track and report your build times.'
-  tags = ['gradle', 'performance', 'buildtimes', 'metrics']
+    website = 'https://github.com/droidchef/build-time-tracker-plugin'
+    vcsUrl = 'https://github.com/droidchef/build-time-tracker-plugin.git'
+    description = 'Gradle plugin to continuously track and report your build times.'
+    tags = ['gradle', 'performance', 'buildtimes', 'metrics']
 
-  plugins {
-    buildTimeTrackerPlugin {
-      displayName = 'Build Time Tracker'
+    plugins {
+        buildTimeTrackerPlugin {
+            displayName = 'Build Time Tracker'
+        }
     }
-  }
 }
 
-publishing {
-  publications {
-    pluginPublication (MavenPublication) {
-      from    components.java
-      groupId    project.group
-      artifactId    "gradle-plugin"
-      version    project.version
+Properties project_properties = new Properties()
+project_properties.load(project.rootProject.file("local.properties").newDataInputStream())
+
+def artifactory_user = project_properties.getProperty('artifactory_user')
+def artifactory_password = project_properties.getProperty('artifactory_password')
+def artifactory_contextUrl = project_properties.getProperty('artifactory_contextUrl')
+
+artifactory {
+    contextUrl = "${artifactory_contextUrl}"   //The base Artifactory URL if not overridden by the publisher/resolver
+    publish {
+        repository {
+            repoKey = 'gradle-local'
+            username = "${artifactory_user}"
+            password = "${artifactory_password}"
+            maven = true
+        }
+        defaults {
+            publications('mavenJava')
+            properties = [
+                    'published.by': System.properties['user.name']
+            ]
+            publishArtifacts = true
+            publishPom = true
+        }
     }
-  }
+    resolve {
+        repository {
+            repoKey = 'gradle'
+            username = "${artifactory_user}"
+            password = "${artifactory_password}"
+            maven = true
+
+        }
+    }
+}
+
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+            groupId group
+            version = project.version
+            artifactId 'gradle-build-tracker'
+        }
+    }
 }
