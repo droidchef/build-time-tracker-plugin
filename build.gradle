@@ -64,12 +64,14 @@ dependencies {
     compile 'org.ocpsoft.prettytime:prettytime:3.2.5.Final'
     compile 'joda-time:joda-time:2.4'
     compile 'org.codehaus.groovy.modules.http-builder:http-builder:0.7'
+    implementation 'com.squareup.okhttp3:okhttp:4.0.1'
+    implementation 'com.google.code.gson:gson:2.8.5'
 
     compile 'junit:junit:4.12'
 }
 
 group = 'co.droidchef.android.buildtimetracker'
-version = '1.0.13'
+version = '1.0.14'
 
 install {
     repositories.mavenInstaller {

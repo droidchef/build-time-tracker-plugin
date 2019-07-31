@@ -1,17 +1,12 @@
 package co.droidchef.android.buildtimetracker.reporters
 
 import co.droidchef.android.buildtimetracker.Timing
-import groovyx.net.http.ContentType
-import groovyx.net.http.HTTPBuilder
-import groovyx.net.http.Method
-import org.apache.http.conn.scheme.Scheme
-import org.apache.http.conn.ssl.SSLSocketFactory
+import com.google.gson.Gson
+import okhttp3.*
 import org.gradle.BuildResult
 import org.gradle.api.logging.Logger
 
-import javax.net.ssl.SSLContext
-import javax.net.ssl.TrustManager
-import javax.net.ssl.X509TrustManager
+import javax.net.ssl.*
 import java.security.SecureRandom
 import java.security.cert.X509Certificate
 import java.text.DateFormat
@@ -72,51 +67,60 @@ class WarehouseReporter extends AbstractBuildTimeTrackerReporter {
         ]
     }
 
-    private void postDataToWarehouse(data, boolean debugHttp) {
+    private void postDataToWarehouseWithOkHttp(data, boolean debugHttp) {
         def url = getOption("url", null)
-        def http = new HTTPBuilder(url)
-        http.getClient().getParams().setParameter("http.connection.timeout", new Integer(5000))
-        http.getClient().getParams().setParameter("http.socket.timeout", new Integer(5000))
-        try {
-            SSLContext sc = SSLContext.getInstance("SSL")
-            sc.init(null, [new X509TrustManager() {
-                public X509Certificate[] getAcceptedIssuers() { null }
 
-                public void checkClientTrusted(X509Certificate[] certs, String authType) {}
+        SSLContext sc = SSLContext.getInstance("SSL")
+        sc.init(null, [new X509TrustManager() {
+            public X509Certificate[] getAcceptedIssuers() { null }
 
-                public void checkServerTrusted(X509Certificate[] certs, String authType) {}
-            }] as TrustManager[], new SecureRandom())
-            def sf = new SSLSocketFactory(sc, SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER)
-            def httpsScheme = new Scheme("https", sf, 443)
-            http.client.connectionManager.schemeRegistry.register(httpsScheme)
+            public void checkClientTrusted(X509Certificate[] certs, String authType) {}
+
+            public void checkServerTrusted(X509Certificate[] certs, String authType) {}
+        }] as TrustManager[], new SecureRandom())
+        def sf = sc.getSocketFactory()
 
 
-            http.request(Method.POST, ContentType.JSON) { req ->
-                body = data
+        MediaType JSON = MediaType.get("application/json; charset=utf-8");
+        OkHttpClient client = new OkHttpClient.Builder()
+        .sslSocketFactory(sf, new X509TrustManager() {
+            public X509Certificate[] getAcceptedIssuers() { new X509Certificate[0] }
 
-                //headers.put(getOption('headerParamKey1', null), getOption('headerParamVal1', null))
-                headers.Accept = 'application/json'
+            public void checkClientTrusted(X509Certificate[] certs, String authType) {}
 
-                response.success = { resp, json ->
-                    if (debugHttp) {
-                        logger.lifecycle(json)
-                    }
-                    logger.quiet 'Build stats reported'
-                }
-                response.failure = { resp ->
-                    if (debugHttp) {
-                        logger.lifecycle resp.toString()
-                    }
-                    logger.quiet 'Failed to report build stats!'
-                }
+            public void checkServerTrusted(X509Certificate[] certs, String authType) {}
+        })
+        .hostnameVerifier(new HostnameVerifier() {
+            @Override
+            public boolean verify(String hostname, SSLSession session) {
+                return true;
             }
-        } catch (Exception exception) {
-            logger.quiet sprintf('Failed to report build stats! %1$s', exception.toString())
-            logger.lifecycle(exception.stackTrace.toString())
-            //logger.quiet sprintf(data.toMapString())
+        })
+        .build()
+
+        Gson gson = new Gson()
+        def json = gson.toJson(data)
+
+        RequestBody body = RequestBody.create(JSON, json);
+        Request request = new Request.Builder()
+                .url(url)
+                .post(body)
+                .build();
+        try {
+            Response response = client.newCall(request).execute()
+            Map jsonReponse = gson.fromJson(response.body().charStream(), Map.class)
+            if (response.successful) {
+                logger.quiet 'Build stats reported'
+                if (debugHttp) {
+                    logger.quiet jsonReponse.toMapString()
+                }
+            } else {
+                logger.quiet 'Failed to report Build stats!'
+            }
+        } catch (IOException e) {
+            logger.quiet e.toString()
         }
     }
-
     @Override
     void onBuildResult(BuildResult result) {
 
@@ -134,6 +138,6 @@ class WarehouseReporter extends AbstractBuildTimeTrackerReporter {
         metaData.put("firstTaskName", firstTaskName)
 
         // write to server
-        postDataToWarehouse(data, debugHttp)
+        postDataToWarehouseWithOkHttp(data, debugHttp)
     }
 }
