@@ -73,6 +73,9 @@ class SummaryReporter extends AbstractBuildTimeTrackerReporter {
                         FormattingUtils.formatDuration(timing.ms)))
             }
         }
+
+        logger.lifecycle("")
+        logger.lifecycle(sprintf("Total Build Time = %s ms", total))
     }
 
     def static shortenTaskName(String taskName, def max) {

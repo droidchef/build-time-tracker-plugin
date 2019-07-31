@@ -71,7 +71,7 @@ dependencies {
 }
 
 group = 'co.droidchef.android.buildtimetracker'
-version = '1.0.14'
+version = '1.0.15'
 
 install {
     repositories.mavenInstaller {

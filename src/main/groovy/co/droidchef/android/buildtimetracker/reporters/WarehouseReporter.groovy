@@ -39,7 +39,7 @@ class WarehouseReporter extends AbstractBuildTimeTrackerReporter {
         def measurements = []
 
         timings.eachWithIndex { it, index ->
-            logger.lifecycle(it.path)
+            //logger.lifecycle(it.path)
             measurements << [
                     timestamp: timestamp,
                     order: index,
